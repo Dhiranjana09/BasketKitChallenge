@@ -1,0 +1,60 @@
+name: BasketKitChallenge
+options:
+  bundleIdPrefix: com.basketkit
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  BasketKitChallenge:
+    type: application
+    platform: iOS
+    sources:
+      - path: BasketKitChallenge
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basketkit.BasketKitChallenge
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_PREVIEWS: true
+
+  BasketKitChallengeTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BasketKitChallengeTests
+    dependencies:
+      - target: BasketKitChallenge
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.basketkit.BasketKitChallengeTests
+        GENERATE_INFOPLIST_FILE: true
+
+schemes:
+  BasketKitChallenge:
+    build:
+      targets:
+        BasketKitChallenge: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - BasketKitChallengeTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
