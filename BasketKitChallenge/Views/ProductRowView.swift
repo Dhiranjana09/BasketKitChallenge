@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct ProductRowView: View {
-   
-    let product : Product
+    
+    let product: Product
+    let quantityInBasket: Int
+    let canAddToBasket: Bool
     let onAddToBasket: () -> Void
     
     var body: some View {
@@ -37,9 +39,21 @@ struct ProductRowView: View {
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
-            }  else {
-                Button ("Add to Basket"){
-                    onAddToBasket()
+            } else {
+                HStack {
+                    Button(
+                        canAddToBasket ? "Add to Basket" : "Stock Limit Reached"
+                    ) {
+                        onAddToBasket()
+                    }
+                    .disabled(!canAddToBasket)
+
+                    if quantityInBasket > 0 {
+                        Spacer()
+                        Text("In basket: \(quantityInBasket)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
         }
@@ -73,6 +87,9 @@ struct ProductRowView: View {
             benefits: [],
             imageURL: "",
             description: ""
-        ), onAddToBasket:{}
+        ),
+        quantityInBasket: 1,
+        canAddToBasket: true,
+        onAddToBasket: {}
     )
 }

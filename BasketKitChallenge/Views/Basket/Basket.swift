@@ -8,7 +8,7 @@
 import Foundation
 
 struct Basket {
-    private var quantities: [String : Int] = [:]
+    private var quantities: [String: Int] = [:]
     private var products: [String: Product] = [:]
     
     mutating func add(_ product: Product) {
@@ -25,6 +25,10 @@ struct Basket {
     func quantity(for productID: String) -> Int {
         quantities[productID, default: 0]
     }
+
+    var itemCount: Int {
+        quantities.values.reduce(0, +)
+    }
     
     var totalPence: Int {
         quantities.reduce(0) { total, item in
@@ -33,7 +37,6 @@ struct Basket {
             }
             
             return total + product.memberPricePence * item.value
-            
         }
     }
 }

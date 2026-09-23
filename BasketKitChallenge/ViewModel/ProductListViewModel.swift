@@ -44,5 +44,13 @@ final class ProductListViewModel {
     func addToBasket(_ product: Product) {
         basket.add(product)
     }
+    
+    func quantityInBasket(for product: Product) -> Int {
+        basket.quantity(for: product.id)
+    }
+    
+    func canAddToBasket(_ product: Product) -> Bool {
+        quantityInBasket(for: product) < product.stock
+    }
 }
 

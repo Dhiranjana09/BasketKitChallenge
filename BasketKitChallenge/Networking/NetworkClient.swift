@@ -26,23 +26,27 @@ struct NetworkClient: NetworkClientProtocol, Sendable {
     }
     
     func request<T: Decodable & Sendable>(_ url: URL) async throws -> T {
+        let data: Data
+        let response: URLResponse
         
         do {
-            let (data, response) = try await session.data(from: url)
-            
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw APIError.invalidResponse
-            }
-            
-            guard 200..<300 ~= httpResponse.statusCode else {
-                throw APIError.httpError(httpResponse.statusCode)
-            }
-            
-            do {
-                return try decoder.decode(T.self, from: data)
-            } catch {
-                throw APIError.decodingError(error)
-            }
+            (data, response) = try await session.data(from: url)
+        } catch {
+            throw APIError.networkError(error)
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            throw APIError.invalidResponse
+        }
+        
+        guard 200..<300 ~= httpResponse.statusCode else {
+            throw APIError.httpError(httpResponse.statusCode)
+        }
+        
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw APIError.decodingError(error)
         }
     }
 }

@@ -41,27 +41,52 @@ struct ProductListView: View {
             List(products) { product in
                 ProductRowView(
                     product: product,
+                    quantityInBasket: viewModel.quantityInBasket(for: product),
+                    canAddToBasket: viewModel.canAddToBasket(product),
                     onAddToBasket: {
                         viewModel.addToBasket(product)
                     }
                 )
             }
-            
-            Text(
-                "Basket Total: £\(Double(viewModel.basket.totalPence) / 100, specifier: "%.2f")"
-            )
-            .font(.headline)
-            .padding()
+
+            basketSummary
         }
         .navigationTitle("Products")
     }
+
+    private var basketSummary: some View {
+        HStack {
+            Text("Basket (\(viewModel.basket.itemCount))")
+            Spacer()
+            Text(
+                "£\(Double(viewModel.basket.totalPence) / 100, specifier: "%.2f")"
+            )
+        }
+        .font(.headline)
+        .padding()
+        .background(.bar)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(
+            "Basket, \(viewModel.basket.itemCount) items, total £\(Double(viewModel.basket.totalPence) / 100, specifier: "%.2f")"
+        )
+    }
     
     private func errorView(_ message: String) -> some View {
-        ContentUnavailableView(
-            "Unable to Load Products",
-            systemImage: "exclamationmark.triangle",
-            description: Text(message)
-        )
+        ContentUnavailableView {
+            Label(
+                "Unable to Load Products",
+                systemImage: "exclamationmark.triangle"
+            )
+        } description: {
+            Text(message)
+        } actions: {
+            Button("Try Again") {
+                Task {
+                    await viewModel.fetchProducts()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 }
 
