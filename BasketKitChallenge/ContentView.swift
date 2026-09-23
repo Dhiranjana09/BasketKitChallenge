@@ -7,18 +7,11 @@ import SwiftUI
 /// for what we're looking for.
 struct ContentView: View {
     var body: some View {
-        VStack(spacing: 12) {
-            Image(systemName: "bag")
-                .font(.system(size: 40))
-                .foregroundStyle(.secondary)
-            Text("Build your product listing here")
-                .font(.headline)
-            Text(Constants.productCatalogURL.absoluteString)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .textSelection(.enabled)
+        NavigationStack {
+            ProductListView(
+                viewModel: ProductListViewModel()
+            )
         }
-        .padding()
     }
 }
 
