@@ -67,7 +67,7 @@ final class BasketKitChallengeTests: XCTestCase {
         
         //Then
         XCTAssertEqual(
-            basket.totlaPence,
+            basket.totalPence,
             2800
         )
     }

@@ -26,7 +26,7 @@ struct Basket {
         quantities[productID, default: 0]
     }
     
-    var totlaPence: Int {
+    var totalPence: Int {
         quantities.reduce(0) { total, item in
             guard let product = products[item.key] else {
                 return total

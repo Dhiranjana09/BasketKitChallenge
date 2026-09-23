@@ -36,11 +36,22 @@ struct ProductListView: View {
         }
     }
     
-    private func productList(_ products:[Product]) -> some View {
-        List(products) { product in
-            ProductRowView(product: product) {
-                viewModel.addToBasket(product)
+    private func productList(_ products: [Product]) -> some View {
+        VStack(spacing: 0) {
+            List(products) { product in
+                ProductRowView(
+                    product: product,
+                    onAddToBasket: {
+                        viewModel.addToBasket(product)
+                    }
+                )
             }
+            
+            Text(
+                "Basket Total: £\(Double(viewModel.basket.totalPence) / 100, specifier: "%.2f")"
+            )
+            .font(.headline)
+            .padding()
         }
         .navigationTitle("Products")
     }
