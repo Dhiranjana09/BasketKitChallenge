@@ -38,7 +38,9 @@ struct ProductListView: View {
     
     private func productList(_ products:[Product]) -> some View {
         List(products) { product in
-            ProductRowView(product: product)
+            ProductRowView(product: product) {
+                viewModel.addToBasket(product)
+            }
         }
         .navigationTitle("Products")
     }

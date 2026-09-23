@@ -10,6 +10,7 @@ import SwiftUI
 struct ProductRowView: View {
    
     let product : Product
+    let onAddToBasket: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -36,6 +37,10 @@ struct ProductRowView: View {
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.red)
+            }  else {
+                Button ("Add to Basket"){
+                    onAddToBasket()
+                }
             }
         }
         .padding(.vertical, 8)
@@ -68,6 +73,6 @@ struct ProductRowView: View {
             benefits: [],
             imageURL: "",
             description: ""
-        )
+        ), onAddToBasket:{}
     )
 }

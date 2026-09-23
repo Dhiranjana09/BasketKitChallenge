@@ -22,6 +22,7 @@ final class ProductListViewModel {
     private let productService: any ProductServiceProtocol
     
     var state: ProductListState = .loading
+    var basket = Basket()
     
     init(productService: any ProductServiceProtocol = ProductService()) {
         self.productService = productService
@@ -38,6 +39,10 @@ final class ProductListViewModel {
         } catch {
             state = .error("Something went wrong. Please try again.")
         }
+    }
+    
+    func addToBasket(_ product: Product) {
+        basket.add(product)
     }
 }
 
